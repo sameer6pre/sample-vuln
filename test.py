@@ -7,28 +7,6 @@ import yaml
 import requests
 
 
-# ❌ 1. Hard-coded secret
-SECRET_KEY = "my_super_secret_key_123456"
-
-
-# ❌ 2. Weak password hashing (MD5)
-def hash_password(password: str) -> str:
-    return hashlib.md5(password.encode()).hexdigest()
-
-
-# ❌ 3. Command injection
-def list_files(user_path: str) -> str:
-    # User input directly concatenated into shell command
-    cmd = f"ls -la {user_path}"
-    return subprocess.getoutput(cmd)
-
-
-# ❌ 4. Insecure deserialization (RCE risk)
-def load_user_data(data: bytes):
-    # Untrusted pickle loading
-    return pickle.loads(data)
-
-
 # ❌ 5. Path traversal
 def read_file(filename: str) -> str:
     # No validation on filename
@@ -66,3 +44,25 @@ def save_file(filename: str, content: str):
         f.write(content)
     # World-writable permission
     os.chmod(filename, 0o777)
+
+
+# ❌ 1. Hard-coded secret
+SECRET_KEY = "my_super_secret_key_123456"
+
+
+# ❌ 2. Weak password hashing (MD5)
+def hash_password(password: str) -> str:
+    return hashlib.md5(password.encode()).hexdigest()
+
+
+# ❌ 3. Command injection
+def list_files(user_path: str) -> str:
+    # User input directly concatenated into shell command
+    cmd = f"ls -la {user_path}"
+    return subprocess.getoutput(cmd)
+
+
+# ❌ 4. Insecure deserialization (RCE risk)
+def load_user_data(data: bytes):
+    # Untrusted pickle loading
+    return pickle.loads(data)
