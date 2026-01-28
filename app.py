@@ -10,23 +10,6 @@ app = Flask(__name__)
 API_KEY = "SUPER_SECRET_API_KEY_12345"  # Snyk should flag this
 
 
-# --- VULN 2: SQL Injection ---
-def get_user_by_name(username):
-    conn = sqlite3.connect("test.db")
-    cursor = conn.cursor()
-    # Intentionally vulnerable query
-    query = f"SELECT * FROM users WHERE username = '{username}'"
-    cursor.execute(query)
-    result = cursor.fetchall()
-    conn.close()
-    return result
-
-
-@app.route("/user")
-def user():
-    username = request.args.get("username", "test")
-    data = get_user_by_name(username)
-    return {"data": str(data)}
 
 
 # --- VULN 3: Command Injection ---
@@ -49,6 +32,23 @@ def load():
     obj = pickle.loads(bytes.fromhex(raw))
     return {"loaded": str(obj)}
 
+# --- VULN 2: SQL Injection ---
+def get_user_by_name(username):
+    conn = sqlite3.connect("test.db")
+    cursor = conn.cursor()
+    # Intentionally vulnerable query
+    query = f"SELECT * FROM users WHERE username = '{username}'"
+    cursor.execute(query)
+    result = cursor.fetchall()
+    conn.close()
+    return result
+
+
+@app.route("/user")
+def user():
+    username = request.args.get("username", "test")
+    data = get_user_by_name(username)
+    return {"data": str(data)}
 
 # --- VULN 5: Unsafe YAML load ---
 @app.route("/yaml")
