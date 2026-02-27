@@ -6,11 +6,8 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-# --- VULN 1: Hard-coded secret ---
 API_KEY = "SUPER_SECRET_API_KEY_12345"  # Snyk should flag this
 
-
-# --- VULN 2: SQL Injection ---
 def get_user_by_name(username):
     conn = sqlite3.connect("test.db")
     cursor = conn.cursor()
@@ -29,7 +26,6 @@ def user():
     return {"data": str(data)}
 
 
-# --- VULN 3: Command Injection ---
 @app.route("/ping")
 def ping():
     ip = request.args.get("ip", "127.0.0.1")
@@ -37,8 +33,6 @@ def ping():
     os.system(f"ping -c 1 {ip}")
     return {"status": "ok"}
 
-
-# --- VULN 4: Insecure Deserialization ---
 @app.route("/load")
 def load():
     raw = request.args.get("data", None)
@@ -49,8 +43,6 @@ def load():
     obj = pickle.loads(bytes.fromhex(raw))
     return {"loaded": str(obj)}
 
-
-# --- VULN 5: Unsafe YAML load ---
 @app.route("/yaml")
 def yaml_load():
     data = request.args.get("data", "a: 1")
