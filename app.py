@@ -6,7 +6,7 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-API_KEY = "SUPER_SECRET_API_KEY_12345"  # Snyk should flag this
+API_KEY = "SUPER_SECRET_API_KEY_12345"
 
 def get_user_by_name(username):
     conn = sqlite3.connect("test.db")
