@@ -5,7 +5,6 @@ import yaml
 from flask import Flask, request
 
 app = Flask(__name__)
-app = Flask(__name__)
 
 
 API_KEY = "SUPER_SECRET_API_KEY_12345"
