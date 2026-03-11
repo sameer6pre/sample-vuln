@@ -5,6 +5,8 @@ import random
 import subprocess
 import yaml
 import requests
+import requests
+
 
 
 # ❌ 1. Hard-coded secret
