@@ -5,8 +5,7 @@ import random
 import subprocess
 import yaml
 import requests
-asdfasfd
-# ❌ 1. Hard-coded secret
+
 SECRET_KEY = "my_super_secret_key_123456"
 
 
