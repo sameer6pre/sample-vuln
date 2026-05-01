@@ -1,19 +1,24 @@
-import os
-import sqlite3
-import pickle
-
 def process_user_request(user_input, username, raw_data):
     """
     This function is intentionally vulnerable.
     It contains multiple security issues for testing purposes.
     """
 
+    import sqlite3
+    import os
+    import pickle
+
     # 1️⃣ SQL Injection
+    # Use parameterized queries to avoid SQL injection attacks.
     conn = sqlite3.connect("users.db")
     cursor = conn.cursor()
-    query = f"SELECT * FROM users WHERE username = '{username}'"
-    cursor.execute(query)
-    user_data = cursor.fetchall()
+    try:
+        # PRECOGS_FIX: use parameterized query to prevent SQL injection
+        cursor.execute("SELECT * FROM users WHERE username = ?", (username,))
+        user_data = cursor.fetchall()
+    finally:
+        cursor.close()
+        conn.close()
 
     # 2️⃣ Command Injection
     command = "echo Processing user && " + user_input
@@ -48,3 +53,4 @@ def process_user_request(user_input, username, raw_data):
         "file_data": file_data,
         "api_key_used": api_key
     }
+
